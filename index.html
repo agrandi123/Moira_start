@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moiras Haus der Erinnerungen</title>
+  <style>
+    :root { --gold: #f6d65c; --cream: #f5ead2; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        linear-gradient(rgba(20,15,12,.38), rgba(20,15,12,.68)),
+        url("Bilder/Hintergrund_1.png") center center / cover fixed no-repeat;
+      background-color: #29201b;
+      display: flex; flex-direction: column;
+    }
+    header { text-align: center; padding: clamp(2.5rem, 8vh, 6rem) 1rem 2rem; }
+    .music-toggle {
+      position: fixed; top: 1rem; left: 1rem; z-index: 10;
+      display: inline-flex; align-items: center; gap: .55rem;
+      padding: .55rem .8rem; color: var(--cream);
+      font: inherit; font-size: .95rem; letter-spacing: .08em;
+      background: rgba(25,19,15,.82); border: 1px solid rgba(246,214,92,.65);
+      border-radius: 3px; cursor: pointer; box-shadow: 0 3px 12px rgba(0,0,0,.3);
+    }
+    .music-toggle:hover, .music-toggle:focus-visible {
+      border-color: var(--gold); box-shadow: 0 0 12px rgba(246,214,92,.45); outline: none;
+    }
+    .music-toggle img { display: block; width: 24px; height: 24px; object-fit: contain; }
+    @media (max-width: 440px) {
+      .music-toggle { top: .6rem; left: .6rem; padding: .45rem .6rem; font-size: .85rem; }
+      .music-toggle img { width: 21px; height: 21px; }
+    }
+    .eyebrow {
+      margin: 0 0 .9rem; font-size: .85rem; letter-spacing: .32em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    h1 {
+      margin: 0 auto; max-width: 1100px;
+      font-size: clamp(2.1rem, 6vw, 5.2rem); line-height: 1.05;
+      font-weight: 500; letter-spacing: .055em; text-transform: uppercase;
+      text-shadow: 0 3px 12px rgba(0,0,0,.8);
+    }
+    .ornament {
+      width: min(260px, 55vw); height: 1px; margin: 1.7rem auto 0;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    main { width: min(1400px, 94%); margin: auto auto 3rem; padding-top: 2rem; }
+    .cards {
+      position: relative;
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: stretch; gap: 1.2rem;
+    }
+    .card {
+      display: flex; align-items: center; justify-content: center;
+      min-width: 0; padding: .45rem;
+      background: rgba(25,19,15,.52); border: 1px solid rgba(245,234,210,.35);
+      border-radius: 3px; box-shadow: 0 8px 24px rgba(0,0,0,.3);
+      transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+      backdrop-filter: blur(3px);
+    }
+    .card img { display: block; width: 100%; height: auto; object-fit: contain; }
+    a.card { text-decoration: none; cursor: pointer; }
+    .card:hover, .card:focus-visible {
+      border-color: var(--gold);
+      box-shadow: 0 0 8px var(--gold), 0 0 22px rgba(246,214,92,.78),
+                  inset 0 0 12px rgba(246,214,92,.12);
+      transform: translateY(-5px); outline: none;
+    }
+    .inactive { cursor: default; }
+    .card-wrap {
+      min-width: 0;
+      display: flex;
+    }
+    .card-wrap .card { width: 100%; }
+    .veil {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(246, 214, 92, .55);
+      border-radius: 3px;
+      color: #f8e9bd;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.2rem, 2.2vw, 2rem);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background:
+        linear-gradient(135deg, rgba(24, 18, 14, .84), rgba(71, 52, 33, .76)),
+        repeating-linear-gradient(45deg, rgba(246,214,92,.05) 0 2px, transparent 2px 8px);
+      box-shadow: inset 0 0 28px rgba(0,0,0,.35);
+      backdrop-filter: blur(5px);
+      transition: opacity .55s ease, visibility .55s ease, box-shadow .25s ease;
+      z-index: 2;
+    }
+    .veil span {
+      padding: .75rem 1rem;
+      border-top: 1px solid rgba(246,214,92,.7);
+      border-bottom: 1px solid rgba(246,214,92,.7);
+      text-shadow: 0 0 12px rgba(246,214,92,.55);
+    }
+    .veil:hover, .veil:focus-visible {
+      box-shadow: inset 0 0 30px rgba(246,214,92,.15), 0 0 14px rgba(246,214,92,.35);
+      outline: 1px solid var(--gold);
+      outline-offset: -5px;
+    }
+    .cards.unveiled .veil {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    footer {
+      padding: 0 1rem 1.25rem; text-align: center;
+      font-size: .8rem; letter-spacing: .12em; color: rgba(245,234,210,.8);
+    }
+    @media (max-width: 800px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 440px) { .cards { gap: .7rem; } main { width: 96%; } }
+  </style>
+</head>
+<body>
+  <button class="music-toggle" id="music-toggle" type="button" aria-label="Musik ausschalten" aria-pressed="false">
+    <img id="music-icon" src="Bilder/sound-on.png" alt="">
+    <span>Musik</span>
+  </button>
+  <audio id="background-music" autoplay loop>
+    <source src="Sound/Musik.mp3" type="audio/mpeg">
+    Dein Browser unterstützt keine Hintergrundmusik.
+  </audio>
+  <header>
+    <p class="eyebrow">Ein Ort voller Geschichten</p>
+    <h1>Moiras Haus der Erinnerungen</h1>
+    <div class="ornament" aria-hidden="true"></div>
+  </header>
+  <main>
+    <nav class="cards" aria-label="Erinnerungskarten">
+      <div class="card-wrap">
+        <a class="card" href="https://agrandi123.github.io/Kartenlegerin1/" aria-label="Karte 1 öffnen">
+          <img src="Bilder/Karte1.png" alt="Karte 1">
+        </a>
+      </div>
+      <div class="card-wrap">
+        <a class="card" href="https://agrandi123.github.io/Kartenlegerin2/" aria-label="Karte 2 öffnen">
+          <img src="Bilder/Karte2.png" alt="Karte 2">
+        </a>
+      </div>
+      <div class="card-wrap">
+        <div class="card inactive" aria-label="Karte 3, ohne Verlinkung">
+          <img src="Bilder/Karte3.png" alt="Karte 3">
+        </div>
+      </div>
+      <div class="card-wrap">
+        <a class="card" href="https://agrandi123.github.io/Moiramomente/" aria-label="Karte 4 öffnen">
+          <img src="Bilder/Karte4.png" alt="Karte 4">
+        </a>
+      </div>
+      <button class="veil" type="button" aria-label="Schleier über allen vier Karten entfernen"><span>Tritt ein</span></button>
+    </nav>
+  </main>
+  <footer>MOIRAS HAUS DER ERINNERUNGEN</footer>
+  <script>
+    // Manche Browser blockieren automatisches Abspielen mit Ton.
+    // Bei der ersten Nutzerinteraktion wird die Musik erneut gestartet.
+    (function () {
+      const music = document.getElementById("background-music");
+      const toggle = document.getElementById("music-toggle");
+      const icon = document.getElementById("music-icon");
+      let musicDisabledByUser = false;
+      music.volume = 0.18;
+
+      function updateMusicButton(isOn) {
+        icon.src = isOn ? "Bilder/sound-on.png" : "Bilder/sound-off.png";
+        toggle.setAttribute("aria-label", isOn ? "Musik ausschalten" : "Musik einschalten");
+        toggle.setAttribute("aria-pressed", String(!isOn));
+      }
+
+      function tryPlayMusic() {
+        if (!musicDisabledByUser) music.play().catch(function () {});
+      }
+
+      toggle.addEventListener("click", function () {
+        if (music.paused || musicDisabledByUser) {
+          musicDisabledByUser = false;
+          tryPlayMusic();
+          updateMusicButton(true);
+        } else {
+          musicDisabledByUser = true;
+          music.pause();
+          updateMusicButton(false);
+        }
+      });
+
+      tryPlayMusic();
+      document.addEventListener("pointerdown", tryPlayMusic);
+      document.addEventListener("keydown", tryPlayMusic);
+    })();
+  </script>
+
+  <script>
+    const cards = document.querySelector(".cards");
+    const veil = document.querySelector(".veil");
+    veil.addEventListener("click", function () {
+      cards.classList.add("unveiled");
+    });
+  </script>
+</body>
+</html>
