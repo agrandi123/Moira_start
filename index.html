@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Moiras Haus der Erinnerungen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root { --gold: #f6d65c; --cream: #f5ead2; }
     * { box-sizing: border-box; }
     body {
       margin: 0; min-height: 100vh; color: var(--cream);
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: "Cinzel", Georgia, "Times New Roman", serif;
       background:
         linear-gradient(rgba(20,15,12,.38), rgba(20,15,12,.68)),
         url("Bilder/Hintergrund_1.png") center center / cover fixed no-repeat;
@@ -84,7 +87,7 @@
       border: 1px solid rgba(246, 214, 92, .55);
       border-radius: 3px;
       color: #f8e9bd;
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: "Cinzel", Georgia, "Times New Roman", serif;
       font-size: clamp(1.2rem, 2.2vw, 2rem);
       letter-spacing: .16em;
       text-transform: uppercase;
@@ -112,10 +115,6 @@
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-    }
-    footer {
-      padding: 0 1rem 1.25rem; text-align: center;
-      font-size: .8rem; letter-spacing: .12em; color: rgba(245,234,210,.8);
     }
     @media (max-width: 800px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 440px) { .cards { gap: .7rem; } main { width: 96%; } }
@@ -153,14 +152,13 @@
         </div>
       </div>
       <div class="card-wrap">
-        <a class="card" href="https://agrandi123.github.io/Moiramomente/" aria-label="Karte 4 öffnen">
+        <a class="card" href="https://agrandi123.github.io/schluesselmomente/" aria-label="Karte 4 öffnen">
           <img src="Bilder/Karte4.png" alt="Karte 4">
         </a>
       </div>
       <button class="veil" type="button" aria-label="Schleier über allen vier Karten entfernen"><span>Tritt ein</span></button>
     </nav>
   </main>
-  <footer>MOIRAS HAUS DER ERINNERUNGEN</footer>
   <script>
     // Manche Browser blockieren automatisches Abspielen mit Ton.
     // Bei der ersten Nutzerinteraktion wird die Musik erneut gestartet.
